@@ -1,4 +1,4 @@
-# shallenge
+# Shallenge
 
 An Atari's Challenge clone
 
@@ -10,6 +10,6 @@ With http-server i just run:
 
 http-server -i -d /path/to/folder/
 
-And go to the web browser and type localhost/index.html
+And go to the web browser and type localhost:8080/index.html
 
 Is just a prototype, so help me found errors. Any help is welcome.
