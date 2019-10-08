@@ -12,6 +12,4 @@ http-server -i -d /path/to/folder/
 
 And go to the web browser and type localhost/index.html
 
-if you want to build like electron application go to the directory from the terminal or CMD and type npm build.
-
 Is just a prototype, so help me found errors. Any help is welcome.
