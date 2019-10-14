@@ -16,7 +16,26 @@
         <canvas id="screen" width="800" height="600">
             If you see this means that you need an updated browser to play.
         </canvas>
-        <button id="playButton">Jugar</button>
+        <div class="game-panel left">
+            <h2>Shallenge</h2>
+            <p>Un clon del Challenge de Atari 2600.</p>
+            <p>Desarrollado por <a href="https://github.com/kenliten">KenLiten</a></p>
+            <br>
+            <span id="timer"></span>
+            <button id="playButton">Jugar</button>
+            <p id="alerts"></p>
+        </div>
+        <div class="game-panel right">
+            <h2>Controles:</h2>
+            <br>
+            <p>
+                <b>Arriba:</b> <span class="key">↑</span><br><br><br>
+                <b>Abajo:</b> <span class="key">↓</span><br><br><br>
+                <b>Izquierda:</b> <span class="key">←</span><br><br><br>
+                <b>Derecha:</b> <span class="key">→</span><br><br><br>
+                <b>Iniciar Juego:</b> <span class="key">Enter</span>
+            </p>
+        </div>
     </div>
     <script src="js/game.js"></script>
 </body>

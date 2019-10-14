@@ -6,7 +6,7 @@
     var canvas = document.querySelector("#screen");
     var ctx = canvas.getContext("2d");
     var playButton = document.getElementById("playButton");
-
+    
     var upPressed = false,
         downPressed = false,
         leftPressed = false,
@@ -17,7 +17,80 @@
         xPos = 734,
         yPos = 559,
         goal = { x: 34, y: 559 },
+        running = false,
+        bars, 
+        timeScreen = document.getElementById("timer"),
+        time = 0,
+        alertScreen = document.getElementById("alerts"),
+        interval,
         enemies = new Array();
+    
+    function timer(){
+        if (running){
+            time += 1;
+            timeScreen.innerText = "Tiempo: " + time;
+        }
+        else{
+            time = 0;
+        }
+    }
+    
+    function gameAlert(msg){
+        alertScreen.innerText = msg;
+    }
+
+    function startGame() {
+        upPressed = false;
+        downPressed = false;
+        leftPressed = false;
+        rightPressed = false;
+        touchEnemy = false;
+        touchGoal = false;
+        loopCaller;
+        xPos = 734;
+        yPos = 559;
+        goal = { x: 34, y: 559 };
+        interval = setInterval(timer, 1000);
+        alertScreen.innerText = "";
+        enemies = new Array();
+
+        for (let i = 0; i < 11; i++) {
+            enemies[i] = {
+                x: 34,
+                y: ((i * 50) + 9),
+                start: 34,
+                end: 734,
+                vel: ((i > 5) ? (i + 1) : ((i + 1) * 2)),
+                goRight: true,
+                move: () => {
+                    if (enemies[i].goRight) {
+                        enemies[i].x += enemies[i].vel;
+                        if (enemies[i].x >= enemies[i].end) {
+                            enemies[i].goRight = false;
+                        }
+                    } else {
+                        enemies[i].x -= enemies[i].vel;
+                        if (enemies[i].x <= enemies[i].start) {
+                            enemies[i].goRight = true;
+                        }
+                    }
+                }
+            };
+        }
+
+        bars = new Array();
+
+        for (let i = 0; i < 7; i++) {
+            bars[i] = {
+                x: ((i + 1) * 100) - 2,
+                y: (!(i == 1) && i % 2 == 0) ? 50 : 0
+            };
+        }
+        
+        playButton.style.display = "none";
+        running = true;
+        loop();
+    }
 
     function addImage(src, x, y) {
         let img = new Image();
@@ -26,45 +99,12 @@
         ctx.drawImage(img, x, y);
         ctx.closePath();
     }
-
-    for (let i = 0; i < 11; i++) {
-        enemies[i] = {
-            x: 34,
-            y: ((i * 50) + 9),
-            start: 34,
-            end: 734,
-            vel: ((i > 5) ? (i + 1) : ((i + 1) * 2)),
-            goRight: true,
-            move: () => {
-                if (enemies[i].goRight) {
-                    enemies[i].x += enemies[i].vel;
-                    if (enemies[i].x >= enemies[i].end) {
-                        enemies[i].goRight = false;
-                    }
-                } else {
-                    enemies[i].x -= enemies[i].vel;
-                    if (enemies[i].x <= enemies[i].start) {
-                        enemies[i].goRight = true;
-                    }
-                }
-            }
-        };
-    }
-
+    
     function drawEnemies() {
         for (let i = 0; i < enemies.length; i++) {
             enemies[i].move();
             addImage("../assets/enemy.png", enemies[i].x, enemies[i].y);
         }
-    }
-
-    var bars = new Array();
-
-    for (let i = 0; i < 7; i++) {
-        bars[i] = {
-            x: ((i + 1) * 100) - 2,
-            y: (!(i == 1) && i % 2 == 0) ? 50 : 0
-        };
     }
 
     // later will accept one parameter, the level and will get it 
@@ -120,6 +160,11 @@
         if (e.key == "ArrowRight") {
             rightPressed = true;
         }
+        if (e.key == "Enter") {
+            if (!running){
+                startGame();
+            }
+        }
     }
 
     function keyUnpressed(e) {
@@ -138,21 +183,24 @@
     }
 
     function gameOver(win) {
+        /*
         if (win) {
-            alert("Has Ganado!");
+            gameAlert("Has Ganado!");
         } else {
-            alert("Has Perdido!");
+            gameAlert("Has Perdido!");
         }
+        */
         window.cancelAnimationFrame(loopCaller);
-        cleanScreen();
+        running = false;
+        clearInterval(interval);
         playButton.style.display = "block";
-        playButton.addEventListener("click", function() {
-            location.reload();
-        });
     }
 
     window.addEventListener("keydown", keyPressed);
     window.addEventListener("keyup", keyUnpressed);
+    playButton.addEventListener("click", function() {
+        startGame();
+    });
 
     // Create and start the main loop
     function loop() {
@@ -206,12 +254,12 @@
 
         if (touchEnemy) {
             gameOver(false);
+            cleanScreen();
+            window.requestAnimationFrame(function(){addImage("../assets/gameover.png", 0, 0)});
         }
         if (touchGoal) {
             gameOver(true);
         }
     }
-
-    loop();
 
 })();
