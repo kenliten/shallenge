@@ -8,8 +8,16 @@ To run locally i highly recommend to use a server, in my case, http-server, whic
 
 With http-server i just run:
 
-http-server -i -d /path/to/folder/
+<code>http-server -i -d /path/to/folder/</code>
 
 And go to the web browser and type localhost:8080/index.html
 
 Is just a prototype, so help me found errors. Any help is welcome.
+
+TODO:
+
+<ul>
+    <li>Fix the bug of the top screen</li>
+    <li>Add some levels</li>
+    <li>Add a better movement to enemies</li>
+</ul>
