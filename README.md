@@ -20,4 +20,5 @@ TODO:
     <li>Fix the bug of the top screen</li>
     <li>Add some levels</li>
     <li>Add a better movement to enemies</li>
+    <li>Create Electron's based binaries for Linux, Mac & Windows</li>
 </ul>
