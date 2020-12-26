@@ -210,7 +210,7 @@
         drawEnemies();
         drawGoal();
 
-        if (upPressed && !(yPos <= 0)) {
+        if (upPressed && !(yPos <= 2)) {
             yPos -= 3;
         }
 
